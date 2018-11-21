@@ -102,6 +102,30 @@
 
                     <b-radio-button 
                       v-model="item.type"
+                      native-value="symptom"
+                      type="is-success">
+                      <b-icon icon="newspaper"/>
+                      <span>Symptom</span>
+                    </b-radio-button>
+
+                    <b-radio-button 
+                      v-model="item.type"
+                      native-value="prozess"
+                      type="is-success">
+                      <b-icon icon="newspaper"/>
+                      <span>Prozess</span>
+                    </b-radio-button>
+
+                    <b-radio-button 
+                      v-model="item.type"
+                      native-value="wirkstoff"
+                      type="is-success">
+                      <b-icon icon="newspaper"/>
+                      <span>Wirkstoff</span>
+                    </b-radio-button>
+
+                    <b-radio-button 
+                      v-model="item.type"
                       native-value="author"
                       type="is-success">
                       <b-icon icon="account-search"/>
