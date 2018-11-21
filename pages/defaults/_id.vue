@@ -91,13 +91,6 @@
                   <!-- Fields row 2 -->
 
                   <b-field>
-                    <b-radio-button 
-                      v-model="item.type"
-                      native-value="car"
-                      type="is-success">
-                      <b-icon icon="car"/>
-                      <span>Car</span>
-                    </b-radio-button>
 
                     <b-radio-button 
                       v-model="item.type"
@@ -105,30 +98,6 @@
                       type="is-success">
                       <b-icon icon="newspaper"/>
                       <span>News</span>
-                    </b-radio-button>
-
-                    <b-radio-button 
-                      v-model="item.type"
-                      native-value="brand"
-                      type="is-success">
-                      <b-icon icon="karate"/>
-                      <span>Brand</span>
-                    </b-radio-button>
-
-                    <b-radio-button 
-                      v-model="item.type"
-                      native-value="topic"
-                      type="is-success">
-                      <b-icon icon="pound-box"/>
-                      <span>Topic</span>
-                    </b-radio-button>
-
-                    <b-radio-button 
-                      v-model="item.type"
-                      native-value="feat"
-                      type="is-success">
-                      <b-icon icon="animation"/>
-                      <span>Feat</span>
                     </b-radio-button>
 
                     <b-radio-button 

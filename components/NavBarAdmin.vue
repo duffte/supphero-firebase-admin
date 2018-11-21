@@ -36,11 +36,6 @@
         <p class="navbar-item">
           <nuxt-link 
             class="button is-info" 
-            to="/add/krankheit">+ Krankheit</nuxt-link>
-        </p>
-        <p class="navbar-item">
-          <nuxt-link 
-            class="button is-info" 
             to="/add/wirkstoff">+ Wirkstoff</nuxt-link>
         </p>        
         <p class="navbar-item">

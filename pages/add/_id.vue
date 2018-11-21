@@ -254,23 +254,6 @@
                     type="text" 
                     class="input">
                   <hr>
-                </div> 
-                <div v-if="block.type == 'car'">
-                  <h3 class="title is-5">Car <button 
-                    class="delete" 
-                    @click="deleteBlock(index)">x</button></h3>     
-                  <p class="content"><b>Selected:</b> {{ block.selected }}</p>
-                  <b-field label="Find a car">
-                    <b-autocomplete
-                      v-model="block.name"
-                      :data="filteredDataObj"
-                      :keep-first="keepFirst"
-                      :open-on-focus="openOnFocus"
-                      placeholder="e.g. BMW"
-                      field="carName"
-                      @select="option => block.selected = option"/>
-                  </b-field>        
-                  <hr>
                 </div>                   
               </li>
             </ul>
@@ -282,9 +265,6 @@
               <button 
                 class="button" 
                 @click="addImage()">Add new Image</button>
-              <button 
-                class="button" 
-                @click="addCar()">Add new Car</button>  
             </b-field>
           </div>
         </div>
@@ -300,18 +280,11 @@ import { storage } from '~/plugins/firebase.js'
 export default {
   data() {
     return {
-      specs: {},
-      specifications: {},
-      newsTags: [],
       document: {},
       id: '',
-      tags: [],
-      brands: [],
       data: [],
-      cars: [],
       blocks: [],
       name: '',
-      filteredTags: [],
       date: new Date(),
       selected: [],
       //upload image
@@ -405,9 +378,6 @@ export default {
     addImage() {
       this.blocks.push({ content: 'new block', type: 'image' })
     },
-    addCar() {
-      this.blocks.push({ name: '', selected: {}, type: 'car' })
-    },
     setImageSource: function(index) {
       this.blocks[index].src = downloadURL
     },
@@ -469,14 +439,11 @@ export default {
         )
         this.document.timeToRead = timeToRead
       }
-      this.document.specs = this.specifications
-
       const ref = fireDb.collection(this.$route.params.id).doc(this.document.id)
 
       const document = {
         data: this.document,
-        blocks: this.blocks,
-        specs: this.specifications
+        blocks: this.blocks
       }
 
       try {
@@ -494,26 +461,6 @@ export default {
       .doc(params.id)
       .get()
 
-    let carCollection = []
-    let cars = await fireDb
-      .collection('cars')
-      .get()
-      .then(querySnapshot => {
-        querySnapshot.forEach(doc => {
-          carCollection.push(doc.data().data)
-        })
-      })
-
-    let topicCollection = []
-    let topics = await fireDb
-      .collection('topics')
-      .get()
-      .then(querySnapshot => {
-        querySnapshot.forEach(doc => {
-          topicCollection.push(doc.data().data)
-        })
-      })
-
     let authorCollection = []
     let authors = await fireDb
       .collection('authors')
@@ -524,43 +471,15 @@ export default {
         })
       })
 
-    let brandCollection = []
-    let brands = await fireDb
-      .collection('brands')
-      .get()
-      .then(querySnapshot => {
-        querySnapshot.forEach(doc => {
-          brandCollection.push(doc.data().data)
-        })
-      })
-
-    let specCollection = []
-    let specs = await fireDb
-      .collection('specifications')
-      .get()
-      .then(querySnapshot => {
-        querySnapshot.forEach(doc => {
-          specCollection.push(doc.data().data)
-        })
-      })
-
     if (def.data()) {
       return {
         data: def.data().defaults,
-        cars: carCollection,
-        topics: topicCollection,
-        authors: authorCollection,
-        brands: brandCollection,
-        specifications: specCollection
+        authors: authorCollection
       }
     } else {
       return {
         data: [],
-        cars: carCollection,
-        topics: topicCollection,
-        authors: authorCollection,
-        brands: brandCollection,
-        specifications: specCollection
+        authors: authorCollection
       }
     }
   }

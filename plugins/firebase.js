@@ -4,12 +4,12 @@ import 'firebase/storage'
 
 if (!firebase.apps.length) {
   const config = {
-    apiKey: 'AIzaSyCAUu1ZsJbcFVsPOjb1iTrj6O_bLIhEMbQ',
-    authDomain: 'emil-6e292.firebaseapp.com',
-    databaseURL: 'https://emil-6e292.firebaseio.com',
-    projectId: 'emil-6e292',
-    storageBucket: 'emil-6e292.appspot.com',
-    messagingSenderId: '61545904734'
+    apiKey: 'AIzaSyBLbMjEyJRrF3jRi3D0OpRAn-9_zx5HDEE',
+    authDomain: 'supphero-4ce73.firebaseapp.com',
+    databaseURL: 'https://supphero-4ce73.firebaseio.com',
+    projectId: 'supphero-4ce73',
+    storageBucket: 'supphero-4ce73.appspot.com',
+    messagingSenderId: '800464300796'
   }
   firebase.initializeApp(config)
   firebase.firestore().settings({ timestampsInSnapshots: true })
