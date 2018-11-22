@@ -119,15 +119,41 @@
                 </b-switch>
               </b-field>
 
-              <!-- Topics -->
-              <b-field v-if="item.type == 'topic'">
+              <!-- symptom -->
+              <b-field v-if="item.type == 'symptom'">
                 <b-field>
                   <b-autocomplete
                     v-model="selected[item.name]"
-                    :data="topics"
+                    :data="symptom"
                     open-on-focus="true"
-                    placeholder="e.g. Wettbewerb"
-                    field="topicName"
+                    placeholder="e.g. Müdigkeit"
+                    field="symptomName"
+                    @select="option => document[item.name] = option"/>
+                </b-field>
+              </b-field>
+
+              <!-- wirkstoff -->
+              <b-field v-if="item.type == 'wirkstoff'">
+                <b-field>
+                  <b-autocomplete
+                    v-model="selected[item.name]"
+                    :data="wirkstoff"
+                    open-on-focus="true"
+                    placeholder="e.g. Zink"
+                    field="wirkstoffName"
+                    @select="option => document[item.name] = option"/>
+                </b-field>
+              </b-field>
+
+              <!-- prozess -->
+              <b-field v-if="item.type == 'prozess'">
+                <b-field>
+                  <b-autocomplete
+                    v-model="selected[item.name]"
+                    :data="wirkstoff"
+                    open-on-focus="true"
+                    placeholder="e.g. Zellstoffwechsel"
+                    field="prozessName"
                     @select="option => document[item.name] = option"/>
                 </b-field>
               </b-field>
@@ -146,37 +172,22 @@
                 </b-field>
               </b-field>
 
-              <!-- Brand -->
-              <b-field v-if="item.type == 'brand'">
+              <!-- typ -->
+              <b-field v-if="item.type == 'wirkstofftyp'">
                 <b-field>
                   <b-autocomplete
                     v-model="selected[item.name]"
-                    :data="brands"
+                    :data="wirkstofftyp"
                     open-on-focus="true"
-                    placeholder="e.g. BMW"
-                    field="brandName"
+                    placeholder="e.g. Vitamin"
+                    field="wirkstofftypName"
                     @select="option => document[item.name] = option"/>
                 </b-field>
               </b-field>              
 
             </b-field>   
 
-            <!-- CAR SPECS -->
-            
-            <br>
-            <h2 class="title">Specifications</h2>
-
-            <ul v-if="$route.params.id == 'cars'">
-              <li 
-                v-for="spec in specifications" 
-                :key="spec.id">
-
-                <b-field :label="spec.specName + ' (' + spec.specAbbr + ')'">
-                  <b-input 
-                    v-model="spec.specValue"  
-                    type="number"/>
-              </b-field></li>
-            </ul>         
+                     
             <br>
             <button 
               :disabled="writeCarSuccessful"
@@ -284,6 +295,11 @@ export default {
       id: '',
       data: [],
       blocks: [],
+      author: [],
+      wirkstoff: [],
+      symptom: [],
+      wirkstofftyp: [],
+      prozess: [],
       name: '',
       date: new Date(),
       selected: [],
@@ -471,15 +487,53 @@ export default {
         })
       })
 
+    let symptomCollection = []
+    let symptom = await fireDb
+      .collection('symptom')
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          symptomCollection.push(doc.data().data)
+        })
+      })
+
+    let wirkstoffCollection = []
+    let wirkstoff = await fireDb
+      .collection('wirkstoff')
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          wirkstoffCollection.push(doc.data().data)
+        })
+      })
+
+    let prozessCollection = []
+    let prozess = await fireDb
+      .collection('wirkstoff')
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          wirkstoffCollection.push(doc.data().data)
+        })
+      })
+
     if (def.data()) {
       return {
         data: def.data().defaults,
-        authors: authorCollection
+        author: authorCollection,
+        symptom: symptomCollection,
+        wirkstoff: wirkstoffCollection,
+        prozess: prozessCollection,
+        wirkstofftyp: wirkstofftypCollection
       }
     } else {
       return {
         data: [],
-        authors: authorCollection
+        author: authorCollection,
+        symptoms: symptomCollection,
+        wirkstoff: wirkstoffCollection,
+        prozess: prozessCollection,
+        wirkstofftyp: wirkstofftypCollection
       }
     }
   }

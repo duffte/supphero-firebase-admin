@@ -134,10 +134,10 @@
 
                     <b-radio-button 
                       v-model="item.type"
-                      native-value="chart"
+                      native-value="wirkstofftyp"
                       type="is-success">
                       <b-icon icon="poll-box"/>
-                      <span>Chart</span>
+                      <span>Wirkstofftyp</span>
                     </b-radio-button>                  
                   </b-field>
 
