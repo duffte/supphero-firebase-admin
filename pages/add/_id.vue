@@ -517,6 +517,16 @@ export default {
         })
       })
 
+    let wirkstofftypCollection = []
+    let wirkstofftyp = await fireDb
+      .collection('wirkstoff')
+      .get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          wirkstofftypCollection.push(doc.data().data)
+        })
+      })
+
     if (def.data()) {
       return {
         data: def.data().defaults,
