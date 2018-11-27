@@ -1,31 +1,38 @@
 <template>
   <div>
-    <BaseHero :title="'Add New '+ $route.params.id" 
-subtitle="based on defaults"/>
+    <BaseHero 
+      :title="'Add New '+ $route.params.id" 
+      subtitle="based on defaults"/>
     <section class="section has-background-light">
       <div class="container">
         <div class="columns">
           <div class="column">
             <h2 class="title">Add {{ $route.params.id }}</h2>
             <b-field label="Permalink/id">
-              <b-input v-model="document.id" 
-type="text" placeholder="e.g. this-is-a-permalink"/>
+              <b-input 
+                v-model="document.id" 
+                type="text" 
+                placeholder="e.g. this-is-a-permalink"/>
             </b-field>
-            <b-field v-for="(item, index) in data" 
-:label="item.name" :key="index">
+            <b-field 
+              v-for="(item, index) in data" 
+              :label="item.name" 
+              :key="index">
               <!-- Text-->
               <b-field v-if="item.type == 'text'">
                 <b-input v-model="document[item.name]"/>
               </b-field>
               <!-- number-->
               <b-field v-if="item.type == 'number'">
-                <b-input v-model="document[item.name]" 
-type="number"/>
+                <b-input 
+                  v-model="document[item.name]" 
+                  type="number"/>
               </b-field>
               <!-- Textarea-->
               <b-field v-if="item.type == 'textarea'">
-                <b-input v-model="document[item.name]" 
-type="textarea"/>
+                <b-input 
+                  v-model="document[item.name]" 
+                  type="textarea"/>
               </b-field>
               <!-- Topics -->
               <b-field v-if="item.type == 'array'">
@@ -43,14 +50,16 @@ type="textarea"/>
                   :first-day-of-week="1"
                   placeholder="Click to select..."
                 >
-                  <button class="button is-primary" 
-@click="date = new Date()">
+                  <button 
+                    class="button is-primary" 
+                    @click="date = new Date()">
                     <b-icon icon="calendar-today"/>
                     <span>Today</span>
                   </button>
                   
-                  <button class="button is-danger" 
-@click="date = null">
+                  <button 
+                    class="button is-danger" 
+                    @click="date = null">
                     <b-icon icon="close"/>
                     <span>Clear</span>
                   </button>
@@ -71,15 +80,19 @@ type="textarea"/>
                   v-if="uploading && !uploadEnd"
                   :value="progressUpload"
                 >{{ progressUpload }}%</progress>
-                <img v-if="uploadEnd" 
-:src="downloadURL" width="100%">
+                <img 
+                  v-if="uploadEnd" 
+                  :src="downloadURL" 
+                  width="100%">
                 <div v-if="uploadEnd">
-                  <button class="button" 
-@click="deleteImage()">Delete</button>
+                  <button 
+                    class="button" 
+                    @click="deleteImage()">Delete</button>
                 </div>
                 <b-field label="Source URL">
-                  <b-input v-model="document[item.name]" 
-type="text"/>
+                  <b-input 
+                    v-model="document[item.name]" 
+                    type="text"/>
                 </b-field>
               </div>
 
@@ -185,30 +198,36 @@ type="text"/>
             <h1 class="title">Blocks</h1>
 
             <ul class>
-              <li v-for="(block, index) in blocks" 
-:key="index" class="box">
+              <li 
+                v-for="(block, index) in blocks" 
+                :key="index" 
+                class="box">
                 <div v-if="block.type == 'text'">
                   <h3 class="title is-5">
                     Paragraph
-                    <button class="delete" 
-@click="deleteBlock(index)">x</button>
+                    <button 
+                      class="delete" 
+                      @click="deleteBlock(index)">x</button>
                   </h3>
                   <label>Text</label>
                   <no-ssr>
-                    <markdown-editor ref="markdownEditor" 
-v-model="block.content"/>
+                    <markdown-editor 
+                      ref="markdownEditor" 
+                      v-model="block.content"/>
                   </no-ssr>
                   <hr>
                 </div>
                 <div v-if="block.type == 'image'">
                   <h3 class="title is-5">
                     Image
-                    <button class="delete" 
-@click="deleteBlock(index)">x</button>
+                    <button 
+                      class="delete" 
+                      @click="deleteBlock(index)">x</button>
                   </h3>
                   <div>
-                    <button v-if="!uploadEnd && !uploading" 
-@click="selectFile">Upload an image</button>
+                    <button 
+                      v-if="!uploadEnd && !uploading" 
+                      @click="selectFile">Upload an image</button>
                     <input
                       id="files"
                       ref="uploadInput"
@@ -222,29 +241,38 @@ v-model="block.content"/>
                       v-if="uploading && !uploadEnd"
                       :value="progressUpload"
                     >{{ progressUpload }}%</progress>
-                    <img v-if="uploadEnd" 
-:src="downloadURL" width="100%">
+                    <img 
+                      v-if="uploadEnd" 
+                      :src="downloadURL" 
+                      width="100%">
                     <div v-if="uploadEnd">
-                      <button class="button" 
-@click="deleteImage()">Delete</button>
+                      <button 
+                        class="button" 
+                        @click="deleteImage()">Delete</button>
                     </div>
                   </div>
                   <label>Source</label>
-                  <input v-model="block.src" 
-type="text" class="input">
+                  <input 
+                    v-model="block.src" 
+                    type="text" 
+                    class="input">
                   <label>Caption</label>
-                  <input v-model="block.caption" 
-type="text" class="input">
+                  <input 
+                    v-model="block.caption" 
+                    type="text" 
+                    class="input">
                   <hr>
                 </div>
               </li>
             </ul>
             <hr>
             <b-field grouped>
-              <button class="button" 
-@click="addBlock()">Add new Text</button>
-              <button class="button" 
-@click="addImage()">Add new Image</button>
+              <button 
+                class="button" 
+                @click="addBlock()">Add new Text</button>
+              <button 
+                class="button" 
+                @click="addImage()">Add new Image</button>
             </b-field>
           </div>
         </div>
@@ -253,8 +281,9 @@ type="text" class="input">
           <div class="column is-6">
             <h2 class="title">Wirkstoffe</h2>
             <ul>
-              <li v-for="item in stoffe" 
-:key="item.id">
+              <li 
+                v-for="item in stoffe" 
+                :key="item.id">
                 <b-field label="Wirkstoff">
                   <b-autocomplete
                     :data="wirkstoff"
@@ -266,24 +295,33 @@ type="text" class="input">
                   />
                 </b-field>
                 <b-field label="Empfehlung">
-                  <b-input v-model="item.empfehlung" 
-type="textarea"/>
+                  <b-input 
+                    v-model="item.empfehlung" 
+                    type="textarea"/>
                 </b-field>
                 <b-field label="So nicht">
-                  <b-input v-model="item.sonicht" 
-type="textarea"/>
+                  <b-input 
+                    v-model="item.sonicht" 
+                    type="textarea"/>
                 </b-field>
                 <b-field label="Kurzinfo">
                   <no-ssr>
-                    <markdown-editor ref="markdownEditor" 
-v-model="item.content"/>
+                    <markdown-editor 
+                      ref="markdownEditor" 
+                      v-model="item.content"/>
                   </no-ssr>
+                </b-field>
+                <b-field label="Wirkungsgrad 0-10">
+                  <b-input 
+                    v-model="item.wirkungsgrad" 
+                    type="number"/>
                 </b-field>
               </li>
             </ul>
             <b-field grouped>
-              <button class="button" 
-@click="addWirkstoff()">+ wirkstoff</button>
+              <button 
+                class="button" 
+                @click="addWirkstoff()">+ wirkstoff</button>
             </b-field>
           </div>
 

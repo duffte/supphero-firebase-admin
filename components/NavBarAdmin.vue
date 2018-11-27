@@ -48,6 +48,11 @@
             class="button is-info" 
             to="/add/wirkstofftyp">+ Wirkstofftyp</nuxt-link>
         </p> 
+        <p class="navbar-item">
+          <nuxt-link 
+            class="button is-info" 
+            to="/add/artikel">+ Artikel</nuxt-link>
+        </p> 
 
         <div class="navbar-item has-dropdown is-hoverable">
           <a class="navbar-link">
@@ -66,6 +71,9 @@
             </a>
             <a class="navbar-item">
               <nuxt-link to="/defaults/wirkstofftyp">wirkstofftyp</nuxt-link>
+            </a>
+            <a class="navbar-item">
+              <nuxt-link to="/defaults/artikel">artikel</nuxt-link>
             </a>
           </div>
         </div>
@@ -86,6 +94,9 @@
             </a>
             <a class="navbar-item">
               <nuxt-link to="/list/wirkstofftyp">wirkstofftyp</nuxt-link>
+            </a>
+            <a class="navbar-item">
+              <nuxt-link to="/list/artikel">artikel</nuxt-link>
             </a>
           </div>
         </div>       
