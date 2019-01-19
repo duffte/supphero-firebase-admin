@@ -55,6 +55,14 @@
 
                     <b-radio-button 
                       v-model="item.type"
+                      native-value="markdown"
+                      type="is-success">
+                      <b-icon icon="text-subject"/>
+                      <span>Markdown</span>
+                    </b-radio-button>
+
+                    <b-radio-button 
+                      v-model="item.type"
                       native-value="array"
                       type="is-success">
                       <b-icon icon="tag"/>

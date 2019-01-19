@@ -41,11 +41,6 @@
         <p class="navbar-item">
           <nuxt-link 
             class="button is-info" 
-            to="/add/prozess">+ Prozess im Körper</nuxt-link>
-        </p>  
-        <p class="navbar-item">
-          <nuxt-link 
-            class="button is-info" 
             to="/add/wirkstofftyp">+ Wirkstofftyp</nuxt-link>
         </p> 
         <p class="navbar-item">
@@ -66,7 +61,7 @@
 
         <div class="navbar-item has-dropdown is-hoverable">
           <a class="navbar-link">
-            Danger Zone
+            Defaults
           </a>
 
           <div class="navbar-dropdown">
@@ -75,9 +70,6 @@
             </a>
             <a class="navbar-item">
               <nuxt-link to="/defaults/wirkstoff">wirkstoff</nuxt-link>
-            </a>
-            <a class="navbar-item">
-              <nuxt-link to="/defaults/prozess">prozess</nuxt-link>
             </a>
             <a class="navbar-item">
               <nuxt-link to="/defaults/wirkstofftyp">wirkstofftyp</nuxt-link>
@@ -104,9 +96,6 @@
             </a>
             <a class="navbar-item">
               <nuxt-link to="/list/wirkstoff">wirkstoff</nuxt-link>
-            </a>
-            <a class="navbar-item">
-              <nuxt-link to="/list/prozess">prozess</nuxt-link>
             </a>
             <a class="navbar-item">
               <nuxt-link to="/list/wirkstofftyp">wirkstofftyp</nuxt-link>

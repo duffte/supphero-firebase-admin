@@ -34,6 +34,14 @@
                   v-model="document[item.name]" 
                   type="textarea"/>
               </b-field>
+              <!-- md-text-->
+              <div v-if="item.type == 'markdown'">
+                <no-ssr>
+                  <markdown-editor 
+                    ref="markdownEditor" 
+                    v-model="document[item.name]"/>
+                </no-ssr>
+              </div>
               <!-- Topics -->
               <b-field v-if="item.type == 'array'">
                 <b-taginput
@@ -106,6 +114,7 @@
                   false-value="No"
                 >{{ document[item.name] }}</b-switch>
               </b-field>
+             
 
               <!-- symptom -->
               <b-field v-if="item.type == 'symptom'">
@@ -195,8 +204,90 @@
           </div>
 
           <div class="column">
-            <h1 class="title">Blocks</h1>
+            <div v-if="$route.params.id == 'symptom'">
+             
+              <div class="toggle">
+                <h2 class="title">Wirkstoffe</h2>
+                <ul>
+                  <li 
+                    v-for="item in stoffe" 
+                    :key="item.id">
+                    <b-field label="Wirkstoff">
+                      <b-autocomplete
+                        :data="wirkstoff"
+                        :open-on-focus="openOnFocus"
+                        :keep-first="keepFirst"
+                        placeholder="e.g. Zink"
+                        field="wirkstoffName"
+                        @select="option => item.wirkstoff = option"
+                      />
+                    </b-field>
+                    <b-field label="Empfehlung">
+                      <no-ssr>
+                        <markdown-editor 
+                          ref="markdownEditor" 
+                          v-model="item.empfehlung"/>
+                      </no-ssr>
+                    </b-field>
+                    <b-field label="Kurzinfo">
+                      <no-ssr>
+                        <markdown-editor 
+                          ref="markdownEditor" 
+                          v-model="item.content"/>
+                      </no-ssr>
+                    </b-field>
+                    <b-field label="wirkungsgrad">
+                      <b-select 
+                        v-model="item.wirkungsgrad" 
+                        placeholder="Select">
+                        <option value="primary">Primär</option>
+                        <option value="secondary">Sekundär</option>
+                        <option value="optional">Optional</option>
+                      </b-select>
+                    </b-field>
+                    <button 
+                      class="button" 
+                      @click="deleteWirkstoff(index)">delete wirkstoff</button>
+                  </li>
+                </ul>
+                <b-field grouped>
+                  <button 
+                    class="button" 
+                    @click="addWirkstoff()">+ wirkstoff</button>
+                </b-field>
+              </div>
 
+              <hr>
+
+
+              <h2 class="title">FAQ</h2>
+              <ul 
+                v-if="faq.length > 0" 
+                class="box">
+                <li 
+                  v-for="(item, index) in faq" 
+                  :key="index">
+                  <b-field label="title">
+                    <b-input v-model="item.title"/>
+                  </b-field>
+                  <no-ssr>
+                    <markdown-editor 
+                      ref="markdownEditor" 
+                      v-model="item.content"/>
+                  </no-ssr>
+                  <button 
+                    class="button" 
+                    @click="deleteFAQ(index)">delete faq item</button>
+                </li>
+              </ul>
+              <button 
+                class="button" 
+                @click="addFAQ">add faq item</button>
+            </div>
+
+            <hr>
+
+            <h2 class="title">Blocks</h2>
             <ul class>
               <li 
                 v-for="(block, index) in blocks" 
@@ -276,57 +367,7 @@
             </b-field>
           </div>
         </div>
-        <!-- -->
-        <div class="columns">
-          <div class="column is-6">
-            <h2 class="title">Wirkstoffe</h2>
-            <ul>
-              <li 
-                v-for="item in stoffe" 
-                :key="item.id">
-                <b-field label="Wirkstoff">
-                  <b-autocomplete
-                    :data="wirkstoff"
-                    :open-on-focus="openOnFocus"
-                    :keep-first="keepFirst"
-                    placeholder="e.g. Zink"
-                    field="wirkstoffName"
-                    @select="option => item.wirkstoff = option"
-                  />
-                </b-field>
-                <b-field label="Empfehlung">
-                  <b-input 
-                    v-model="item.empfehlung" 
-                    type="textarea"/>
-                </b-field>
-                <b-field label="So nicht">
-                  <b-input 
-                    v-model="item.sonicht" 
-                    type="textarea"/>
-                </b-field>
-                <b-field label="Kurzinfo">
-                  <no-ssr>
-                    <markdown-editor 
-                      ref="markdownEditor" 
-                      v-model="item.content"/>
-                  </no-ssr>
-                </b-field>
-                <b-field label="Wirkungsgrad 0-10">
-                  <b-input 
-                    v-model="item.wirkungsgrad" 
-                    type="number"/>
-                </b-field>
-              </li>
-            </ul>
-            <b-field grouped>
-              <button 
-                class="button" 
-                @click="addWirkstoff()">+ wirkstoff</button>
-            </b-field>
-          </div>
-
-          <div class="columns">asd</div>
-        </div>
+        
       </div>
     </section>
   </div>
@@ -335,10 +376,12 @@
 <script>
 import { fireDb } from '~/plugins/firebase.js'
 import { storage } from '~/plugins/firebase.js'
+import firebase from 'firebase/app'
 
 export default {
   data() {
     return {
+      faq: [],
       document: {},
       id: '',
       data: [],
@@ -433,11 +476,23 @@ export default {
     deleteBlock: function(index) {
       this.blocks.splice(index, 1)
     },
+    deleteFAQ: function(index) {
+      this.faq.splice(index, 1)
+    },
+    deleteWirkstoff: function(index) {
+      this.stoffe.splice(index, 1)
+    },
     addBlock() {
       this.blocks.push({
         content: '',
         type: 'text',
         id: this.idcounter++
+      })
+    },
+    addFAQ() {
+      this.faq.push({
+        title: '',
+        text: ''
       })
     },
     addWirkstoff() {
@@ -509,12 +564,30 @@ export default {
         )
         this.document.timeToRead = timeToRead
       }
+
+      if ((this.$route.params.id = 'symptom')) {
+        const stoffe = this.stoffe
+        const docInfo = {}
+        docInfo.id = this.document.id
+        docInfo.name = this.document.symptomName
+        docInfo.content = this.document.symptomKurzInfo
+        stoffe.forEach(function(item) {
+          fireDb
+            .collection('wirkstoff')
+            .doc(item.wirkstoff.id)
+            .update({
+              mentions: firebase.firestore.FieldValue.arrayUnion(docInfo)
+            })
+        })
+      }
+
       const ref = fireDb.collection(this.$route.params.id).doc(this.document.id)
 
       const document = {
         data: this.document,
         blocks: this.blocks,
-        wirkstoffe: this.stoffe
+        wirkstoffe: this.stoffe,
+        faq: this.faq
       }
 
       try {
